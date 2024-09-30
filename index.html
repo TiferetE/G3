@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תרגול סוכרת הריון - מתקדמים</title>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #8e24aa;
+            --secondary-color: #e1bee7;
+            --background-color: #f3e5f5;
+            --text-color: #333;
+            --selected-color: #7b1fa2;
+            --correct-color: #4caf50;
+            --incorrect-color: #f44336;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--secondary-color), #f3e5f5);
+            padding: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            max-width: 80px;
+            max-height: 80px;
+            margin-right: 10px; /* הקטנת הרווח בין הלוגו לכותרת */
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+            color: var(--primary-color);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .gdm-image {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        #quiz-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .question {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: var(--primary-color);
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+        }
+
+        button {
+            margin: 8px 0;
+            padding: 12px;
+            background-color: var(--secondary-color);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1em;
+            color: var(--text-color);
+            text-align: right;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button.selected {
+            background-color: var(--selected-color);
+            color: white;
+            font-weight: bold;
+        }
+
+        .option-letter {
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .button-container {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #next-button, #submit-button, #retry-button {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: bold;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 120px;
+            min-height: 44px;
+            text-align: center;
+        }
+
+        #next-button:hover, #submit-button:hover, #retry-button:hover {
+            background-color: var(--selected-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #result {
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2em;
+            color: var(--primary-color);
+        }
+
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #e8eaf6;
+            border-radius: 5px;
+            font-style: italic;
+            color: #5c6bc0;
+        }
+
+        .review-question {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .review-question li {
+            list-style-type: none;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .review-question .correct {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--correct-color);
+            border: 1px solid var(--correct-color);
+        }
+
+        .review-question .incorrect {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: var(--incorrect-color);
+            border: 1px solid var(--incorrect-color);
+        }
+
+        .option-letter {
+            font-weight: bold;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>תרגול סוכרת הריון - מומחים</h1>
+            <img src="לוגו מעודכן.png" alt="לוגו" class="logo">
+        </div>
+    </header>
+    <div class="container">
+        <img src="3.png" alt="סוכרת הריון" class="gdm-image">
+        <div id="quiz-container">
+            <div id="question-container"></div>
+            <div class="button-container">
+                <button id="next-button" style="display: none;">השאלה הבאה</button>
+                <button id="submit-button" style="display: none;">הגש מבחן</button>
+            </div>
+            <div id="result"></div>
+        </div>
+        <div id="review-container"></div>
+        <div class="button-container">
+            <button id="retry-button" style="display: none;">נסה שוב</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "1.מה נכון לגבי סיבוכי העובר והילוד לאם עם סוכרת טרום הריונית??",
+                options: ["ישנו סיכון מוגבר לתמותה תוך רחמית אך אין סיכון מוגבר לתמותה לאחר הלידה.", "המומים השכיחים ביותר הם מומים במערכת העיכול ", "המום שנמצא בשכיחות גבוהה לסוכרת הוא caudal dysplasia syndrome ששכיח עד פי 170 בנשים סוכרתיות", "כיום ישנה ירידה בביצוע שיעורי הניתוחים הקיסריים לנשים עם סוכרת בהריון"],
+                correct: 2,
+                explanation: "המום השכיח ביותר"
+            },
+            {
+                question: "2. ",
+                options: ["ם", "ם", "ם", "ם"],
+                correct: 0,
+                explanation: "ם"
+            },
+            {
+                question: "25. מהי ההמלצה התזונתית העיקרית לנשים עם סוכרת הריון?",
+                options: ["להפחית פחמימות לחלוטין", "לשמור על פחמימות מורכבות ומפוזרות לאורך היום", "להימנע מכל שומנים", "לאכול ארוחה גדולה אחת ביום"],
+                correct: 1,
+                explanation: "ההנחיות התזונתיות המקובלות לנשים הרות עם סוכרת היריון ממליצות על צריכה יומית של כ-175 גרם פחמימות, תוך דגש על מקורות פחמימה איכותיים. חשוב להיצמד להמלצה הדיאטנית המותאמות באופן אישי, שכן החלפת הפחמימות בשומנים עלולה לגרום להגברה של הליפוליזה, לעליה ברמת חומצות שומן חופשיות והחמרה של התנגודת לאינסולין האימהית."
+            },
+            // ... (הוסף את כל 30 השאלות כאן) ...
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = [];
+
+        const questionContainer = document.getElementById('question-container');
+        const nextButton = document.getElementById('next-button');
+        const submitButton = document.getElementById('submit-button');
+        const resultContainer = document.getElementById('result');
+        const reviewContainer = document.getElementById('review-container');
+        const retryButton = document.getElementById('retry-button');
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            let optionsHTML = '';
+            const letters = ['א', 'ב', 'ג', 'ד'];
+            for (let i = 0; i < question.options.length; i++) {
+                optionsHTML += `<button onclick="selectAnswer(${i})" id="o${i}"><span class="option-letter">${letters[i]}</span> ${question.options[i]}</button>`;
+            }
+            questionContainer.innerHTML = `
+                <div class="question">${question.question}</div>
+                <div class="options">${optionsHTML}</div>
+            `;
+            document.querySelector('.button-container').style.display = 'flex';
+            nextButton.style.display = 'none';
+            submitButton.style.display = 'none';
+        }
+
+        function selectAnswer(optionIndex) {
+            userAnswers[currentQuestion] = optionIndex;
+            const buttons = document.querySelectorAll('[id^="o"]');
+            buttons.forEach(button => button.classList.remove('selected'));
+            document.getElementById(`o${optionIndex}`).classList.add('selected');
+            if (currentQuestion === questions.length - 1) {
+                nextButton.style.display = 'none';
+                submitButton.style.display = 'block';
+            } else {
+                nextButton.style.display = 'block';
+                submitButton.style.display = 'none';
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                questionContainer.innerHTML = '';
+                nextButton.style.display = 'none';
+                submitButton.style.display = 'block';
+            }
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            for (let i = 0; i < questions.length; i++) {
+                if (userAnswers[i] === questions[i].correct) {
+                    score++;
+                }
+            }
+            const percentage = (score / questions.length) * 100;
+            resultContainer.innerHTML = `הציון שלך: ${percentage.toFixed(2)}%`;
+            showReview();
+            submitButton.style.display = 'none';
+            retryButton.style.display = 'block';
+        }
+
+        function showReview() {
+            let reviewHTML = '';
+            const letters = ['א', 'ב', 'ג', 'ד'];
+            for (let i = 0; i < questions.length; i++) {
+                const question = questions[i];
+                reviewHTML += `
+                    <div class="review-question">
+                        <p><strong>${question.question}</strong></p>
+                        <ul>
+                            ${question.options.map((option, index) => `
+                                <li class="${index === question.correct ? 'correct' : (index === userAnswers[i] && index !== question.correct ? 'incorrect' : '')}">
+                                    <span class="option-letter">${letters[index]}</span> ${option}
+                                    ${index === question.correct ? ' ✓' : (index === userAnswers[i] && index !== question.correct ? ' ✗' : '')}
+                                </li>
+                            `).join('')}
+                        </ul>
+                        <div class="explanation"><strong>הסבר:</strong> ${question.explanation}</div>
+                    </div>
+                `;
+            }
+            
+            reviewContainer.innerHTML = reviewHTML;
+            retryButton.style.display = 'block';
+        }
+
+        function retryQuiz() {
+            currentQuestion = 0;
+            userAnswers = [];
+            resultContainer.innerHTML = '';
+            reviewContainer.innerHTML = '';
+            retryButton.style.display = 'none';
+            loadQuestion();
+        }
+
+        nextButton.addEventListener('click', nextQuestion);
+        submitButton.addEventListener('click', submitQuiz);
+        retryButton.addEventListener('click', retryQuiz);
+
+        loadQuestion();
+    </script>
+</body>
+</html>
